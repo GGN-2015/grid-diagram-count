@@ -60,7 +60,9 @@ int main() {
 
                     case 3: // 1, 1：可以使用左上或者交叉
                         dp[i][j+1][S ^ (3 << j)][k] += dp[i][j][S][k]; // 左上：1, 1 -> 0, 0
-                        dp[i][j+1][S][k+1]          += dp[i][j][S][k]; // 交叉：1, 1 -> 1, 1 增加一个交叉点
+                        if(k + 1 < maxk) {
+                            dp[i][j+1][S][k+1] += dp[i][j][S][k]; // 交叉：1, 1 -> 1, 1 增加一个交叉点
+                        }
                         break;
 
                     default:
@@ -87,7 +89,7 @@ int main() {
             }
         }
     }
-    for(int k = 0; k <= std::min(maxk, n * m); k += 1) {
+    for(int k = 0; k < std::min(maxk, n * m + 1); k += 1) {
         printf("dp[%d][%d][%d][%d] = %llu\n", n-1, m, 0, k, dp[n-1][m][0][k]);
     }
     return 0;
